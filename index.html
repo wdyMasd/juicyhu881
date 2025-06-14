@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>照片展示</title>
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .photo-container {
+            position: relative;
+            max-width: 100%;
+            max-height: 90vh; /* 限制最大高度为视口的90% */
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .photo-container:hover {
+            transform: scale(1.01);
+        }
+        
+        .photo {
+            width: 100%;
+            height: auto;
+            display: block; /* 移除图片底部空白 */
+        }
+        
+        /* 移动端适配：点击放大查看 */
+        @media (max-width: 600px) {
+            .photo-container {
+                max-height: 80vh;
+            }
+            
+            .photo {
+                cursor: zoom-in;
+            }
+        }
+        
+        /* 照片信息栏（悬停显示） */
+        .photo-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 12px 16px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .photo-container:hover .photo-info {
+            transform: translateY(0);
+        }
+        
+        /* 返回按钮（可选） */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .photo-container:hover .back-button {
+            opacity: 0.8;
+        }
+        
+        .back-button:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- 照片容器 -->
+    <div class="photo-container">
+        <!-- 替换为你的照片URL -->
+        <img src="https://wdymasd.github.io/juicyhu881/LILEI.jpg" alt="你的照片" class="photo">
+        
+        <!-- 照片信息（可自定义） -->
+        <div class="photo-info">
+            <h3>伟大班主任李磊</h3>
+            <p>拍摄于未知</p>
+        </div>
+        
+        <!-- 返回按钮（可选，可删除） -->
+        <button class="back-button" onclick="window.history.back()">
+            <i>←</i>
+        </button>
+    </div>
+
+    <script>
+        // 图片加载动画
+        const photo = document.querySelector('.photo');
+        photo.style.opacity = '0';
+        
+        photo.onload = function() {
+            // 图片加载完成后淡入显示
+            setTimeout(() => {
+                photo.style.transition = 'opacity 0.5s ease';
+                photo.style.opacity = '1';
+            }, 100);
+        };
+        
+        // 处理图片加载失败
+        photo.onerror = function() {
+            photo.src = 'https://picsum.photos/800/600?random=error'; // 备用图片
+            photo.alt = '图片加载失败';
+        };
+    </script>
+</body>
+</html>
